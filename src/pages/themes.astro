@@ -1,0 +1,90 @@
+---
+// Theme Catalog — Preview all CV themes side by side
+import CVLayout from '../layouts/CVLayout.astro';
+import CVTemplate from '../components/CVTemplate.astro';
+import cvData from '../cvs/mihaja.json';
+
+const themes = [
+  { id: 'editorial', name: 'Editorial', desc: 'Serif summary, navy accent, classic two-column', accent: '#1e3a5f' },
+  { id: 'minimal', name: 'Minimal', desc: 'Ultra-clean black & white, no decoration', accent: '#111111' },
+  { id: 'dark', name: 'Dark', desc: 'Dark mode with violet accent, modern', accent: '#a78bfa' },
+  { id: 'swiss', name: 'Swiss', desc: 'International style, red accent, uppercase', accent: '#e63329' },
+  { id: 'classic', name: 'Classic', desc: 'Traditional serif, burgundy, centered header', accent: '#6b1d2e' },
+  { id: 'creative', name: 'Creative', desc: 'Warm amber, bold shapes, energetic', accent: '#f59e0b' },
+];
+---
+
+<CVLayout title="Thèmes CV — Catalogue" description="Catalogue des thèmes de CV disponibles">
+  <div class="catalog">
+    <header class="catalog-hd">
+      <h1>Catalogue des Thèmes</h1>
+      <p>6 thèmes ATS-friendly · JSON → HTML → PDF · <a href="/">← Retour</a></p>
+    </header>
+
+    <div class="theme-grid">
+      {themes.map((t) => {
+        const themedData = { ...cvData, meta: { ...cvData.meta, theme: t.id } };
+        return (
+          <div class="theme-card" id={t.id}>
+            <div class="theme-info">
+              <div class="theme-swatch" style={`background: ${t.accent}`}></div>
+              <div>
+                <h2>{t.name}</h2>
+                <p>{t.desc}</p>
+              </div>
+              <a href={`/mihaja--${t.id}`} class="theme-link">Voir en plein écran →</a>
+            </div>
+            <div class="theme-preview">
+              <CVTemplate data={themedData} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</CVLayout>
+
+<style>
+  .catalog { min-height: 100vh; background: #f5f5f4; padding: 40px 20px 80px; }
+  .catalog-hd { max-width: 1200px; margin: 0 auto 40px; }
+  .catalog-hd h1 { font-size: 32px; font-weight: 800; color: #1c1917; margin: 0 0 8px; }
+  .catalog-hd p { color: #78716c; font-size: 15px; margin: 0; }
+  .catalog-hd a { color: #1e3a5f; text-decoration: underline; }
+
+  .theme-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
+
+  .theme-card {
+    background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 10px 30px rgba(0,0,0,0.04);
+  }
+
+  .theme-info {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px; border-bottom: 1px solid #f0eeec;
+  }
+  .theme-swatch { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; }
+  .theme-info h2 { font-size: 18px; font-weight: 700; color: #1c1917; margin: 0; }
+  .theme-info p { font-size: 13px; color: #78716c; margin: 2px 0 0; }
+  .theme-link { margin-left: auto; font-size: 13px; color: #1e3a5f; text-decoration: none; font-weight: 500; white-space: nowrap; }
+  .theme-link:hover { text-decoration: underline; }
+
+  /* Preview: scaled-down CV */
+  .theme-preview {
+    padding: 0; overflow: hidden;
+    display: flex; justify-content: center;
+    background: #f5f5f4;
+  }
+  .theme-preview :global(.cv-page) {
+    transform: scale(0.52);
+    transform-origin: top center;
+    margin-bottom: -600px;
+    pointer-events: none;
+  }
+  .theme-preview :global(.toolbar) { display: none; }
+
+  @media screen and (max-width: 768px) {
+    .theme-preview :global(.cv-page) { transform: scale(0.35); margin-bottom: -900px; }
+    .theme-info { flex-wrap: wrap; }
+    .theme-link { margin-left: 0; }
+  }
+</style>

@@ -1,8 +1,7 @@
 ---
-// CV Template — Modern Editorial (ATS-friendly)
-// Inspired by: resume-modern (A4 minimal) + frontend-design (anti-AI-slop craft)
-// Direction: editorial, typography-driven, monochrome + 1 accent
-// No gradients, no glass cards, no decorative blobs — just hierarchy and whitespace.
+// CV Template — Theme Engine
+// Renders any CV JSON with a selected theme
+// Themes: editorial, minimal, dark, swiss, classic, creative
 const { data } = Astro.props;
 
 const basics = data.basics || {};
@@ -13,31 +12,21 @@ const languages = data.languages || [];
 const interests = data.interests || [];
 const meta = data.meta || {};
 
-// Format date range
+const theme = meta.theme || 'editorial';
+
 function fmtDate(d: string | null): string {
   if (!d) return '';
   try {
-    const date = new Date(d);
-    return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-  } catch {
-    return d;
-  }
+    return new Date(d).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+  } catch { return d; }
 }
-
 function formatDateRange(start: string | null, end: string | null): string {
   const s = fmtDate(start);
   const e = end ? fmtDate(end) : "Présent";
   return s ? `${s} — ${e}` : e;
 }
-
-// Map skill level to dots
 function levelToDots(level: string): number {
-  const map: Record<string, number> = {
-    'Notions': 1, 'Débutant': 1,
-    'Intermédiaire': 2,
-    'Avancé': 3,
-    'Expert': 4,
-  };
+  const map: Record<string, number> = { 'Notions': 1, 'Débutant': 1, 'Intermédiaire': 2, 'Avancé': 3, 'Expert': 4 };
   return map[level] || 2;
 }
 
@@ -45,371 +34,396 @@ const fullName = basics.name || '';
 const nameParts = fullName.split(' ');
 const lastName = nameParts.pop() || fullName;
 const firstName = nameParts.join(' ') || '';
+const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 ---
 
-<div class="cv-page">
-  <!-- TOOLBAR: screen-only -->
+<div data-theme={theme} class={`cv-page theme-${theme}`}>
+  <!-- TOOLBAR -->
   <div class="toolbar no-print">
-    <span class="toolbar-label">CV — {fullName}</span>
+    <span class="toolbar-label">CV — {fullName} <span class="theme-badge">{theme}</span></span>
     <button onclick="window.print()" class="pdf-btn" aria-label="Télécharger en PDF">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      <span>Télécharger PDF</span>
+      <span>PDF</span>
     </button>
   </div>
 
   <!-- A4 SHEET -->
-  <article class="cv-sheet">
-
-    <!-- HEADER: Name + Title + Contact bar -->
-    <header class="cv-header">
-      <div class="header-top">
-        <h1 class="cv-name">
-          <span class="first-name">{firstName}</span>{firstName && ' '}<span class="last-name">{lastName}</span>
-        </h1>
-        <p class="cv-title">{basics.label}</p>
+  <article class="sheet">
+    <header class="hd">
+      <div class="hd-name">
+        <h1 class="name"><span class="fn">{firstName}</span>{firstName && ' '}<span class="ln">{lastName}</span></h1>
+        <p class="role">{basics.label}</p>
       </div>
-
-      <!-- Contact: single line, pipe-separated -->
-      <nav class="contact-bar" aria-label="Coordonnées">
-        {basics.email && <span class="contact-item">{basics.email}</span>}
-        {basics.phone && <span class="sep" aria-hidden="true">·</span>}
-        {basics.phone && <span class="contact-item">{basics.phone}</span>}
-        {basics.location?.city && <span class="sep" aria-hidden="true">·</span>}
-        {basics.location?.city && <span class="contact-item">{basics.location.city}, {basics.location.countryCode}</span>}
-        {meta.permit && <span class="sep" aria-hidden="true">·</span>}
-        {meta.permit && <span class="contact-item permit">{meta.permit}</span>}
+      <nav class="contact" aria-label="Coordonnées">
+        {basics.email && <span class="ci">{basics.email}</span>}
+        {basics.phone && <span class="sep">·</span>}
+        {basics.phone && <span class="ci">{basics.phone}</span>}
+        {basics.location?.city && <span class="sep">·</span>}
+        {basics.location?.city && <span class="ci">{basics.location.city}, {basics.location.countryCode}</span>}
+        {meta.permit && <span class="sep">·</span>}
+        {meta.permit && <span class="ci perm">{meta.permit}</span>}
       </nav>
-
-      <div class="header-rule"></div>
     </header>
 
-    <!-- SUMMARY -->
-    {basics.summary && (
-      <section class="cv-summary">
-        <p>{basics.summary}</p>
-      </section>
-    )}
+    {basics.summary && <section class="summary"><p>{basics.summary}</p></section>}
 
-    <!-- TWO COLUMNS: Main (60%) + Aside (40%) -->
-    <div class="cv-cols">
-
-      <!-- MAIN COLUMN -->
-      <div class="cv-main">
-
-        <!-- EXPERIENCE -->
-        <section class="cv-section">
-          <h2 class="section-title"><span class="title-mark"></span>Expérience</h2>
+    <div class="cols">
+      <div class="main">
+        <section class="block">
+          <h2 class="bt">Expérience</h2>
           <div class="entries">
             {work.map((job: any) => (
               <article class="entry">
-                <div class="entry-head">
-                  <h3 class="entry-role">{job.position}</h3>
-                  <span class="entry-date">{formatDateRange(job.startDate, job.endDate)}</span>
-                </div>
-                <p class="entry-org">{job.name}</p>
-                {job.highlights && job.highlights.length > 0 && (
-                  <ul class="entry-bullets">
-                    {job.highlights.map((h: string) => <li>{h}</li>)}
-                  </ul>
-                )}
+                <div class="eh"><h3 class="er">{job.position}</h3><span class="ed">{formatDateRange(job.startDate, job.endDate)}</span></div>
+                <p class="eo">{job.name}</p>
+                {job.highlights?.length > 0 && <ul class="bl">{job.highlights.map((h: string) => <li>{h}</li>)}</ul>}
               </article>
             ))}
           </div>
         </section>
-
-        <!-- EDUCATION -->
-        <section class="cv-section">
-          <h2 class="section-title"><span class="title-mark"></span>Formation</h2>
+        <section class="block">
+          <h2 class="bt">Formation</h2>
           <div class="entries">
             {education.map((edu: any) => (
               <article class="entry">
-                <div class="entry-head">
-                  <h3 class="entry-role">{edu.studyType} — {edu.area}</h3>
-                  <span class="entry-date">{formatDateRange(edu.startDate, edu.endDate)}</span>
-                </div>
-                <p class="entry-org">{edu.institution}</p>
-                {edu.courses && edu.courses.length > 0 && (
-                  <ul class="entry-bullets">
-                    {edu.courses.map((c: string) => <li>{c}</li>)}
-                  </ul>
-                )}
+                <div class="eh"><h3 class="er">{edu.studyType} — {edu.area}</h3><span class="ed">{formatDateRange(edu.startDate, edu.endDate)}</span></div>
+                <p class="eo">{edu.institution}</p>
+                {edu.courses?.length > 0 && <ul class="bl">{edu.courses.map((c: string) => <li>{c}</li>)}</ul>}
               </article>
             ))}
           </div>
         </section>
-
-        <!-- CERTIFICATES -->
-        {meta.certificates && meta.certificates.length > 0 && (
-          <section class="cv-section">
-            <h2 class="section-title"><span class="title-mark"></span>Certifications</h2>
-            <ul class="entry-bullets cert-list">
-              {meta.certificates.map((cert: string) => <li>{cert}</li>)}
-            </ul>
+        {meta.certificates?.length > 0 && (
+          <section class="block">
+            <h2 class="bt">Certifications</h2>
+            <ul class="bl cert">{meta.certificates.map((c: string) => <li>{c}</li>)}</ul>
           </section>
         )}
-
-        <!-- OBJECTIVE -->
         {meta.objective && (
-          <section class="cv-section">
-            <h2 class="section-title"><span class="title-mark"></span>Objectif</h2>
-            <p class="entry-text">{meta.objective}</p>
+          <section class="block">
+            <h2 class="bt">Objectif</h2>
+            <p class="txt">{meta.objective}</p>
           </section>
         )}
       </div>
-
-      <!-- ASIDE COLUMN -->
-      <aside class="cv-aside">
-
-        <!-- SKILLS -->
-        <section class="aside-section">
-          <h2 class="aside-title">Compétences</h2>
-          <ul class="skill-list">
-            {skills.map((skill: any) => {
-              const dots = levelToDots(skill.level);
+      <aside class="aside">
+        <section class="ab">
+          <h2 class="at">Compétences</h2>
+          <ul class="skills">
+            {skills.map((s: any) => {
+              const dots = levelToDots(s.level);
               return (
-                <li class="skill-item">
-                  <span class="skill-name">{skill.name}</span>
-                  <span class="skill-dots" aria-label={skill.level}>
-                    {[1, 2, 3, 4].map((n) => (
-                      <span class={`dot ${n <= dots ? 'dot-on' : 'dot-off'}`}></span>
-                    ))}
-                  </span>
-                  <span class="skill-level-print">{skill.level}</span>
-                  {skill.keywords?.length > 0 && (
-                    <span class="skill-keywords">{skill.keywords.join(', ')}</span>
-                  )}
+                <li class="sk">
+                  <span class="skn">{s.name}</span>
+                  <span class="skd" aria-label={s.level}>{[1,2,3,4].map((n) => <span class={`d ${n <= dots ? 'on' : 'off'}`}></span>)}</span>
+                  <span class="skp">{s.level}</span>
+                  {s.keywords?.length > 0 && <span class="skk">{s.keywords.join(', ')}</span>}
                 </li>
               );
             })}
           </ul>
         </section>
-
-        <!-- LANGUAGES -->
-        <section class="aside-section">
-          <h2 class="aside-title">Langues</h2>
-          <ul class="lang-list">
-            {languages.map((lang: any) => (
-              <li class="lang-item">
-                <span class="lang-name">{lang.language}</span>
-                <span class="lang-level">{lang.fluency}</span>
-              </li>
-            ))}
-          </ul>
+        <section class="ab">
+          <h2 class="at">Langues</h2>
+          <ul class="langs">{languages.map((l: any) => <li class="lg"><span class="lgn">{l.language}</span><span class="lgl">{l.fluency}</span></li>)}</ul>
         </section>
-
-        <!-- INTERESTS -->
-        <section class="aside-section">
-          <h2 class="aside-title">Centres d'intérêt</h2>
-          <div class="interest-tags">
-            {interests.map((interest: any) => (
-              <span class="interest-tag">{interest.name}</span>
-            ))}
-          </div>
+        <section class="ab">
+          <h2 class="at">Centres d'intérêt</h2>
+          <div class="tags">{interests.map((i: any) => <span class="tag">{i.name}</span>)}</div>
         </section>
       </aside>
     </div>
   </article>
 </div>
 
-<!-- ATS structured data -->
 <script type="application/ld+json" set:html={JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: basics.name,
-  email: basics.email,
-  telephone: basics.phone,
+  '@context': 'https://schema.org', '@type': 'Person',
+  name: basics.name, email: basics.email, telephone: basics.phone,
   address: { '@type': 'PostalAddress', addressLocality: basics.location?.city, addressCountry: basics.location?.countryCode },
-  jobTitle: basics.label,
-  description: basics.summary,
+  jobTitle: basics.label, description: basics.summary,
   knowsAbout: skills.map((s: any) => s.name),
 })} />
 
-<style>
-  /* ===== DESIGN TOKENS ===== */
-  :root {
-    --ink: #1a1a1a;
-    --ink-soft: #444;
-    --ink-muted: #666;
-    --ink-faint: #999;
-    --paper: #ffffff;
-    --paper-warm: #faf9f7;
-    --accent: #1e3a5f;
-    --accent-light: #e8edf3;
-    --accent-line: #1e3a5f;
-    --hairline: #e0ddd8;
-    --hairline-soft: #efeae4;
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-serif: 'Georgia', 'Cambria', serif;
-  }
+<style is:global>
+  /* ================================================
+     CV THEME ENGINE — 6 Themes
+     Shared structure, theme-specific tokens
+     ================================================ */
 
-  /* ===== RESET & BASE ===== */
-  .cv-page { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; }
-
-  /* ===== TOOLBAR ===== */
-  .toolbar {
-    position: sticky; top: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 24px;
-    background: var(--ink); color: #fff;
-  }
+  /* ===== SHARED BASE ===== */
+  .cv-page { font-family: 'Inter', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+  .toolbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; }
   .toolbar-label { font-size: 13px; font-weight: 500; opacity: 0.85; }
-  .pdf-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 7px 16px; border-radius: 6px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #fff; font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: background 0.15s ease;
-  }
-  .pdf-btn:hover { background: rgba(255,255,255,0.22); }
+  .theme-badge { font-size: 10px; padding: 2px 8px; border-radius: 99px; margin-left: 8px; opacity: 0.7; }
+  .pdf-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: opacity .15s; }
+  .pdf-btn:hover { opacity: 0.8; }
   .pdf-btn:active { transform: translateY(1px); }
 
-  /* ===== A4 SHEET ===== */
-  .cv-sheet {
-    max-width: 210mm; min-height: 297mm; margin: 0 auto;
-    background: var(--paper);
-    padding: 18mm 16mm;
-    box-shadow: 0 2px 40px rgba(0,0,0,0.06);
-  }
+  .sheet { max-width: 210mm; min-height: 297mm; margin: 0 auto; padding: 18mm 16mm; box-shadow: 0 2px 40px rgba(0,0,0,.06); }
+  .hd { margin-bottom: 24px; }
+  .hd-name { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 0; }
+  .name { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+  .role { font-size: 14px; font-weight: 500; margin: 4px 0 0; }
+  .contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0; margin-top: 10px; font-size: 12px; }
+  .ci { font-weight: 400; }
+  .ci.perm { font-size: 11px; }
+  .sep { margin: 0 8px; font-weight: 300; }
 
-  /* ===== HEADER ===== */
-  .cv-header { margin-bottom: 28px; }
-  .header-top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 0; }
-  .cv-name { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
-  .first-name { color: var(--ink); }
-  .last-name { color: var(--accent); margin-left: 8px; }
-  .cv-title { font-size: 14px; font-weight: 500; color: var(--ink-muted); margin: 4px 0 0; letter-spacing: 0.01em; }
+  .summary { margin-bottom: 24px; }
+  .summary p { font-size: 13.5px; line-height: 1.6; max-width: 92%; }
 
-  .contact-bar {
-    display: flex; flex-wrap: wrap; align-items: center;
-    gap: 0; margin-top: 10px;
-    font-size: 12px; color: var(--ink-soft);
-  }
-  .contact-item { font-weight: 400; }
-  .contact-item.permit { color: var(--ink-faint); font-size: 11px; }
-  .sep { margin: 0 8px; color: var(--ink-faint); font-weight: 300; }
+  .cols { display: grid; grid-template-columns: 1fr 0.55fr; gap: 32px; }
+  .block { margin-bottom: 24px; }
+  .block:last-child { margin-bottom: 0; }
+  .bt { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
 
-  .header-rule {
-    margin-top: 14px; height: 2px;
-    background: var(--ink); border: none;
-  }
+  .entries { display: flex; flex-direction: column; gap: 16px; }
+  .entry {}
+  .eh { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 1px; }
+  .er { font-size: 13px; font-weight: 600; margin: 0; line-height: 1.3; }
+  .ed { font-size: 11px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .eo { font-size: 12.5px; font-weight: 500; margin: 0 0 4px; }
+  .txt { font-size: 12.5px; line-height: 1.55; margin: 0; }
 
-  /* ===== SUMMARY ===== */
-  .cv-summary {
-    margin-bottom: 28px; padding: 0;
-    font-family: var(--font-serif); font-size: 14px; line-height: 1.65;
-    color: var(--ink-soft); font-style: italic;
-    max-width: 90%;
-  }
+  .bl { list-style: none; padding: 0; margin: 4px 0 0; font-size: 12px; line-height: 1.55; }
+  .bl li { position: relative; padding-left: 14px; margin-bottom: 2px; }
+  .bl li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 1px; }
+  .cert { margin-top: 0; }
 
-  /* ===== TWO COLUMNS ===== */
-  .cv-cols {
-    display: grid; grid-template-columns: 1fr 0.55fr;
-    gap: 36px;
-  }
+  .aside { display: flex; flex-direction: column; gap: 22px; }
+  .at { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 12px; padding-bottom: 8px; }
+  .skills { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .sk { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 8px; }
+  .skn { font-size: 12px; font-weight: 500; }
+  .skd { display: inline-flex; gap: 3px; }
+  .d { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .skp { display: none; font-size: 10px; }
+  .skk { grid-column: 1 / -1; font-size: 10.5px; margin-top: 1px; line-height: 1.4; }
 
-  /* ===== SECTION TITLES (MAIN) ===== */
-  .section-title {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--accent);
-    margin: 0 0 16px;
-  }
-  .title-mark {
-    display: inline-block; width: 24px; height: 2px;
-    background: var(--accent); flex-shrink: 0;
-  }
+  .langs { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+  .lg { display: flex; justify-content: space-between; gap: 8px; }
+  .lgn { font-size: 12px; font-weight: 500; }
+  .lgl { font-size: 10.5px; }
 
-  /* ===== ENTRIES ===== */
-  .entries { display: flex; flex-direction: column; gap: 18px; }
-  .entry { border-left: none; }
-  .entry-head {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 12px; margin-bottom: 1px;
-  }
-  .entry-role { font-size: 13.5px; font-weight: 600; color: var(--ink); margin: 0; line-height: 1.3; }
-  .entry-date { font-size: 11px; color: var(--ink-faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .entry-org { font-size: 12.5px; color: var(--accent); font-weight: 500; margin: 0 0 4px; }
-  .entry-text { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; margin: 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { font-size: 11px; padding: 3px 10px; border-radius: 3px; }
 
-  .entry-bullets {
-    list-style: none; padding: 0; margin: 4px 0 0;
-    font-size: 12px; color: var(--ink-soft); line-height: 1.55;
-  }
-  .entry-bullets li {
-    position: relative; padding-left: 14px; margin-bottom: 2px;
-  }
-  .entry-bullets li::before {
-    content: ''; position: absolute; left: 0; top: 7px;
-    width: 5px; height: 1px; background: var(--accent);
-  }
-  .cert-list { margin-top: 0; }
+  /* ===== THEME: EDITORIAL (navy on white, serif summary) ===== */
+  .theme-editorial { color: #1a1a1a; }
+  .theme-editorial .toolbar { background: #1a1a1a; color: #fff; }
+  .theme-editorial .pdf-btn { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.15); }
+  .theme-editorial .sheet { background: #fff; }
+  .theme-editorial .fn { color: #1a1a1a; }
+  .theme-editorial .ln { color: #1e3a5f; }
+  .theme-editorial .role { color: #666; }
+  .theme-editorial .contact { color: #444; }
+  .theme-editorial .ci.perm { color: #999; }
+  .theme-editorial .sep { color: #999; }
+  .theme-editorial .summary p { font-family: Georgia, serif; font-style: italic; color: #444; }
+  .theme-editorial .bt { color: #1e3a5f; }
+  .theme-editorial .bt::before { content: ''; width: 24px; height: 2px; background: #1e3a5f; }
+  .theme-editorial .er { color: #1a1a1a; }
+  .theme-editorial .ed { color: #999; }
+  .theme-editorial .eo { color: #1e3a5f; }
+  .theme-editorial .bl { color: #444; }
+  .theme-editorial .bl li::before { background: #1e3a5f; }
+  .theme-editorial .txt { color: #444; }
+  .theme-editorial .hd { border-bottom: 2px solid #1a1a1a; padding-bottom: 14px; }
+  .theme-editorial .at { color: #1e3a5f; border-bottom: 1px solid #e0ddd8; }
+  .theme-editorial .skn { color: #1a1a1a; }
+  .theme-editorial .d.on { background: #1e3a5f; }
+  .theme-editorial .d.off { background: #e0ddd8; }
+  .theme-editorial .skk { color: #999; }
+  .theme-editorial .lgn { color: #1a1a1a; }
+  .theme-editorial .lgl { color: #999; }
+  .theme-editorial .tag { background: #faf9f7; border: 1px solid #e0ddd8; color: #444; }
+  .theme-editorial .theme-badge { background: rgba(255,255,255,.15); color: #fff; }
 
-  /* ===== MAIN COLUMN SECTIONS ===== */
-  .cv-section { margin-bottom: 26px; }
-  .cv-section:last-child { margin-bottom: 0; }
+  /* ===== THEME: MINIMAL (pure black/white, ultra clean) ===== */
+  .theme-minimal { color: #111; }
+  .theme-minimal .toolbar { background: #111; color: #fff; }
+  .theme-minimal .pdf-btn { background: rgba(255,255,255,.1); color: #fff; }
+  .theme-minimal .sheet { background: #fff; }
+  .theme-minimal .fn { color: #111; }
+  .theme-minimal .ln { color: #111; }
+  .theme-minimal .role { color: #888; }
+  .theme-minimal .contact { color: #555; }
+  .theme-minimal .ci.perm { color: #aaa; }
+  .theme-minimal .sep { color: #ccc; }
+  .theme-minimal .summary p { color: #333; }
+  .theme-minimal .bt { color: #111; }
+  .theme-minimal .bt::before { content: ''; width: 16px; height: 1px; background: #111; }
+  .theme-minimal .er { color: #111; }
+  .theme-minimal .ed { color: #aaa; }
+  .theme-minimal .eo { color: #555; }
+  .theme-minimal .bl { color: #444; }
+  .theme-minimal .bl li::before { background: #ccc; width: 8px; }
+  .theme-minimal .txt { color: #444; }
+  .theme-minimal .hd { border-bottom: 1px solid #eee; padding-bottom: 12px; }
+  .theme-minimal .at { color: #111; border-bottom: 1px solid #eee; }
+  .theme-minimal .skn { color: #111; }
+  .theme-minimal .d.on { background: #111; }
+  .theme-minimal .d.off { background: #eee; }
+  .theme-minimal .skk { color: #aaa; }
+  .theme-minimal .lgn { color: #111; }
+  .theme-minimal .lgl { color: #aaa; }
+  .theme-minimal .tag { background: #f5f5f5; color: #555; }
+  .theme-minimal .theme-badge { background: rgba(255,255,255,.15); color: #fff; }
+  .theme-minimal .name { font-weight: 800; letter-spacing: -0.03em; }
 
-  /* ===== ASIDE ===== */
-  .cv-aside { display: flex; flex-direction: column; gap: 24px; }
-  .aside-section {}
-  .aside-title {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--accent);
-    margin: 0 0 12px; padding-bottom: 8px;
-    border-bottom: 1px solid var(--hairline);
-  }
+  /* ===== THEME: DARK (dark mode, neon accent) ===== */
+  .theme-dark { color: #e4e4e7; }
+  .theme-dark .toolbar { background: #0a0a0a; color: #e4e4e7; }
+  .theme-dark .pdf-btn { background: rgba(255,255,255,.08); color: #e4e4e7; border: 1px solid rgba(255,255,255,.1); }
+  .theme-dark .sheet { background: #18181b; }
+  .theme-dark .fn { color: #f4f4f5; }
+  .theme-dark .ln { color: #a78bfa; }
+  .theme-dark .role { color: #a1a1aa; }
+  .theme-dark .contact { color: #a1a1aa; }
+  .theme-dark .ci.perm { color: #71717a; }
+  .theme-dark .sep { color: #52525b; }
+  .theme-dark .summary p { color: #d4d4d8; }
+  .theme-dark .bt { color: #a78bfa; }
+  .theme-dark .bt::before { content: ''; width: 24px; height: 2px; background: #a78bfa; }
+  .theme-dark .er { color: #f4f4f5; }
+  .theme-dark .ed { color: #71717a; }
+  .theme-dark .eo { color: #c4b5fd; }
+  .theme-dark .bl { color: #a1a1aa; }
+  .theme-dark .bl li::before { background: #a78bfa; }
+  .theme-dark .txt { color: #a1a1aa; }
+  .theme-dark .hd { border-bottom: 1px solid #27272a; padding-bottom: 14px; }
+  .theme-dark .at { color: #a78bfa; border-bottom: 1px solid #27272a; }
+  .theme-dark .skn { color: #e4e4e7; }
+  .theme-dark .d.on { background: #a78bfa; }
+  .theme-dark .d.off { background: #27272a; }
+  .theme-dark .skk { color: #71717a; }
+  .theme-dark .lgn { color: #e4e4e7; }
+  .theme-dark .lgl { color: #71717a; }
+  .theme-dark .tag { background: #27272a; color: #a1a1aa; border: 1px solid #3f3f46; }
+  .theme-dark .theme-badge { background: rgba(167,139,250,.2); color: #c4b5fd; }
 
-  /* ===== SKILLS ===== */
-  .skill-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
-  .skill-item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 8px; }
-  .skill-name { font-size: 12px; font-weight: 500; color: var(--ink); }
-  .skill-dots { display: inline-flex; gap: 3px; }
-  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .dot-on { background: var(--accent); }
-  .dot-off { background: var(--hairline); }
-  .skill-level-print { display: none; font-size: 10px; color: var(--ink-faint); }
-  .skill-keywords {
-    grid-column: 1 / -1; font-size: 10.5px; color: var(--ink-faint);
-    margin-top: 1px; line-height: 1.4;
-  }
+  /* ===== THEME: SWISS (international style, red accent, grid) ===== */
+  .theme-swiss { color: #1a1a1a; }
+  .theme-swiss .toolbar { background: #e63329; color: #fff; }
+  .theme-swiss .pdf-btn { background: rgba(0,0,0,.15); color: #fff; }
+  .theme-swiss .sheet { background: #fff; }
+  .theme-swiss .name { font-weight: 900; letter-spacing: -0.03em; text-transform: uppercase; }
+  .theme-swiss .fn { color: #1a1a1a; }
+  .theme-swiss .ln { color: #e63329; }
+  .theme-swiss .role { color: #666; text-transform: uppercase; font-size: 12px; letter-spacing: 0.08em; }
+  .theme-swiss .contact { color: #444; }
+  .theme-swiss .ci.perm { color: #999; }
+  .theme-swiss .sep { color: #ccc; }
+  .theme-swiss .summary p { color: #333; }
+  .theme-swiss .bt { color: #e63329; text-transform: uppercase; letter-spacing: 0.1em; }
+  .theme-swiss .bt::before { content: ''; width: 20px; height: 3px; background: #e63329; }
+  .theme-swiss .er { color: #1a1a1a; text-transform: uppercase; font-size: 12px; letter-spacing: 0.03em; }
+  .theme-swiss .ed { color: #999; }
+  .theme-swiss .eo { color: #666; font-weight: 400; }
+  .theme-swiss .bl { color: #444; }
+  .theme-swiss .bl li::before { background: #e63329; width: 8px; height: 2px; top: 7px; }
+  .theme-swiss .txt { color: #444; }
+  .theme-swiss .hd { border-bottom: 3px solid #1a1a1a; padding-bottom: 16px; }
+  .theme-swiss .at { color: #e63329; border-bottom: 2px solid #1a1a1a; }
+  .theme-swiss .skn { color: #1a1a1a; text-transform: uppercase; font-size: 11px; }
+  .theme-swiss .d.on { background: #e63329; }
+  .theme-swiss .d.off { background: #eee; }
+  .theme-swiss .skk { color: #999; }
+  .theme-swiss .lgn { color: #1a1a1a; }
+  .theme-swiss .lgl { color: #999; }
+  .theme-swiss .tag { background: #fff; border: 1px solid #1a1a1a; color: #1a1a1a; text-transform: uppercase; font-size: 10px; }
+  .theme-swiss .theme-badge { background: rgba(0,0,0,.15); color: #fff; }
 
-  /* ===== LANGUAGES ===== */
-  .lang-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-  .lang-item { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-  .lang-name { font-size: 12px; font-weight: 500; color: var(--ink); }
-  .lang-level { font-size: 10.5px; color: var(--ink-faint); }
+  /* ===== THEME: CLASSIC (traditional, serif, burgundy) ===== */
+  .theme-classic { color: #2c2c2c; font-family: Georgia, 'Times New Roman', serif; }
+  .theme-classic .toolbar { background: #6b1d2e; color: #f5f0eb; }
+  .theme-classic .pdf-btn { background: rgba(255,255,255,.12); color: #f5f0eb; }
+  .theme-classic .sheet { background: #fdfcfa; }
+  .theme-classic .name { font-family: Georgia, serif; font-weight: 700; letter-spacing: 0.01em; }
+  .theme-classic .fn { color: #2c2c2c; }
+  .theme-classic .ln { color: #6b1d2e; }
+  .theme-classic .role { color: #6b5560; font-style: italic; }
+  .theme-classic .contact { color: #555; }
+  .theme-classic .ci.perm { color: #999; }
+  .theme-classic .sep { color: #c4b6a8; }
+  .theme-classic .summary p { color: #444; font-style: italic; }
+  .theme-classic .bt { color: #6b1d2e; font-family: Georgia, serif; }
+  .theme-classic .bt::before { content: ''; width: 20px; height: 1px; background: #6b1d2e; }
+  .theme-classic .er { color: #2c2c2c; font-family: Georgia, serif; }
+  .theme-classic .ed { color: #999; font-style: italic; }
+  .theme-classic .eo { color: #6b1d2e; font-style: italic; }
+  .theme-classic .bl { color: #444; }
+  .theme-classic .bl li::before { background: #c4b6a8; width: 6px; height: 6px; border-radius: 50%; top: 6px; }
+  .theme-classic .txt { color: #444; }
+  .theme-classic .hd { border-bottom: 1px solid #c4b6a8; padding-bottom: 14px; text-align: center; }
+  .theme-classic .hd-name { flex-direction: column; align-items: center; }
+  .theme-classic .at { color: #6b1d2e; border-bottom: 1px solid #e8e0d8; font-family: Georgia, serif; }
+  .theme-classic .skn { color: #2c2c2c; }
+  .theme-classic .d.on { background: #6b1d2e; }
+  .theme-classic .d.off { background: #e8e0d8; }
+  .theme-classic .skk { color: #999; }
+  .theme-classic .lgn { color: #2c2c2c; }
+  .theme-classic .lgl { color: #999; font-style: italic; }
+  .theme-classic .tag { background: #f5f0eb; border: 1px solid #c4b6a8; color: #6b5560; }
+  .theme-classic .theme-badge { background: rgba(255,255,255,.15); color: #f5f0eb; }
+  .theme-classic .cols { grid-template-columns: 1fr 0.5fr; }
+  .theme-classic .contact { justify-content: center; }
 
-  /* ===== INTERESTS ===== */
-  .interest-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .interest-tag {
-    font-size: 11px; padding: 3px 10px;
-    border: 1px solid var(--hairline); border-radius: 3px;
-    color: var(--ink-soft); background: var(--paper-warm);
-  }
+  /* ===== THEME: CREATIVE (warm, bold, amber accent) ===== */
+  .theme-creative { color: #1c1917; }
+  .theme-creative .toolbar { background: #1c1917; color: #fafaf9; }
+  .theme-creative .pdf-btn { background: #f59e0b; color: #1c1917; }
+  .theme-creative .sheet { background: #fafaf9; }
+  .theme-creative .name { font-weight: 800; }
+  .theme-creative .fn { color: #1c1917; }
+  .theme-creative .ln { color: #f59e0b; }
+  .theme-creative .role { color: #78716c; }
+  .theme-creative .contact { color: #57534e; }
+  .theme-creative .ci.perm { color: #a8a29e; }
+  .theme-creative .sep { color: #d6d3d1; }
+  .theme-creative .summary p { color: #44403c; }
+  .theme-creative .bt { color: #1c1917; }
+  .theme-creative .bt::before { content: ''; width: 32px; height: 4px; background: #f59e0b; border-radius: 2px; }
+  .theme-creative .er { color: #1c1917; }
+  .theme-creative .ed { color: #a8a29e; }
+  .theme-creative .eo { color: #f59e0b; font-weight: 600; }
+  .theme-creative .bl { color: #57534e; }
+  .theme-creative .bl li::before { background: #f59e0b; width: 6px; height: 6px; border-radius: 2px; top: 6px; transform: rotate(45deg); }
+  .theme-creative .txt { color: #57534e; }
+  .theme-creative .hd { border-bottom: none; padding-bottom: 14px; position: relative; }
+  .theme-creative .hd::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #f59e0b 0%, #f59e0b 40%, transparent 40%); border-radius: 2px; }
+  .theme-creative .at { color: #1c1917; border-bottom: 2px solid #f59e0b; }
+  .theme-creative .skn { color: #1c1917; }
+  .theme-creative .d.on { background: #f59e0b; }
+  .theme-creative .d.off { background: #e7e5e4; }
+  .theme-creative .skk { color: #a8a29e; }
+  .theme-creative .lgn { color: #1c1917; }
+  .theme-creative .lgl { color: #a8a29e; }
+  .theme-creative .tag { background: #f59e0b; color: #1c1917; font-weight: 600; border: none; }
+  .theme-creative .theme-badge { background: rgba(245,158,11,.2); color: #f59e0b; }
+  .theme-creative .sheet { border-top: 6px solid #f59e0b; }
 
   /* ===== RESPONSIVE ===== */
   @media screen and (max-width: 860px) {
-    .cv-cols { grid-template-columns: 1fr; gap: 24px; }
-    .cv-sheet { padding: 14mm 10mm; }
-    .header-top { flex-direction: column; align-items: flex-start; }
-    .cv-name { font-size: 26px; }
+    .cols { grid-template-columns: 1fr !important; gap: 24px; }
+    .sheet { padding: 14mm 10mm; }
+    .hd-name { flex-direction: column; align-items: flex-start; }
+    .name { font-size: 24px; }
+    .summary p { max-width: 100%; }
   }
 
   /* ===== PRINT ===== */
   @media print {
     .toolbar, .no-print { display: none !important; }
-    .cv-sheet {
-      max-width: none; min-height: auto; margin: 0;
-      padding: 0; box-shadow: none;
-    }
+    .sheet { max-width: none; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
     @page { size: A4; margin: 12mm 14mm; }
     body { font-size: 10.5pt; }
-    .cv-summary { max-width: 100%; }
-    .skill-dots { display: none; }
-    .skill-level-print { display: inline; }
-    .cv-cols { gap: 24px; }
-    .entry, .aside-section, .cv-section { page-break-inside: avoid; }
-    .section-title, .aside-title, h1, h2, h3 { page-break-after: avoid; }
+    .summary p { max-width: 100%; }
+    .skd { display: none; }
+    .skp { display: inline; }
+    .cols { gap: 24px; }
+    .entry, .ab, .block { page-break-inside: avoid; }
+    .bt, .at, h1, h2, h3 { page-break-after: avoid; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   }
 </style>

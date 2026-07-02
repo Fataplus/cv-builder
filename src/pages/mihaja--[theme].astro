@@ -1,0 +1,19 @@
+---
+// Theme-specific CV pages: /mihaja--[theme]
+import CVLayout from '../layouts/CVLayout.astro';
+import CVTemplate from '../components/CVTemplate.astro';
+import cvData from '../cvs/mihaja.json';
+
+export function getStaticPaths() {
+  const themes = ['editorial', 'minimal', 'dark', 'swiss', 'classic', 'creative'];
+  return themes.map((theme) => ({ params: { theme } }));
+}
+
+const { theme } = Astro.params;
+const data = { ...cvData, meta: { ...cvData.meta, theme } };
+const basics = data.basics;
+---
+
+<CVLayout title={`${basics.name} — CV (${theme})`} description={basics.summary}>
+  <CVTemplate data={data} />
+</CVLayout>
