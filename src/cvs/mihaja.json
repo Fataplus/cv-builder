@@ -1,0 +1,175 @@
+{
+  "$schema": "https://jsonresume.org/schema/v1.0.0",
+  "basics": {
+    "name": "Andriamihaja RABARINJATOVO",
+    "label": "Mécanicien Motoriste Essence & Diesel",
+    "email": "andriamihaja.rabarinjatovo@gmail.com",
+    "phone": "+261 34 88 529 51",
+    "location": {
+      "address": "",
+      "city": "Antananarivo",
+      "region": "Madagascar",
+      "countryCode": "MG"
+    },
+    "summary": "Étudiant rigoureux, curieux et motivé, avec une double expérience en design digital et en photographie événementielle, aujourd'hui en reconversion vers la mécanique automobile. Je souhaite mettre mes compétences techniques et humaines au service d'un acteur du secteur automobile ou industriel.",
+    "profiles": []
+  },
+  "work": [
+    {
+      "name": "INPF — Institut National de Pédagogie et de Formation",
+      "position": "Formation en Mécanique Automobile",
+      "url": "",
+      "startDate": "2024-03-01",
+      "endDate": null,
+      "summary": "Spécialité : Mécanicien motoriste essence et diesel",
+      "highlights": [
+        "Technologie des moteurs à combustion",
+        "Systèmes d'allumage",
+        "Systèmes de carburation",
+        "Systèmes d'injection Essence",
+        "Systèmes d'injection diesel"
+      ]
+    },
+    {
+      "name": "Apollonlab",
+      "position": "Designer / Développeur Web (Stage)",
+      "url": "",
+      "startDate": "2022-09-01",
+      "endDate": "2023-07-01",
+      "summary": "Stage en design et développement web",
+      "highlights": [
+        "Réalisation de maquettes (Figma)",
+        "Intégration HTML / CSS",
+        "Utilisation de WordPress"
+      ]
+    },
+    {
+      "name": "Restaurant Familial",
+      "position": "Gestionnaire",
+      "url": "",
+      "startDate": "2021-08-01",
+      "endDate": "2022-07-01",
+      "summary": "Gestion de restaurant familial",
+      "highlights": [
+        "Gestion de la clientèle",
+        "Organisation et tenue de la cuisine"
+      ]
+    },
+    {
+      "name": "Indépendant",
+      "position": "Photographe Freelance Événementiel",
+      "url": "",
+      "startDate": "2018-01-01",
+      "endDate": "2021-01-01",
+      "summary": "Prestations photographiques pour événements privés",
+      "highlights": [
+        "Prestations pour mariages, fiançailles, portraits",
+        "Gestion de la relation client et post-production"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "INPF",
+      "area": "Mécanique Automobile",
+      "studyType": "Formation Professionnelle",
+      "startDate": "2024-03-01",
+      "endDate": null,
+      "score": "",
+      "courses": [
+        "Technologie des moteurs à combustion",
+        "Systèmes d'allumage",
+        "Systèmes de carburation",
+        "Systèmes d'injection Essence",
+        "Systèmes d'injection diesel"
+      ]
+    },
+    {
+      "institution": "Lycée Privé Adventiste Rajoelison (LYPARS)",
+      "area": "Série A2 — Études culinaires",
+      "studyType": "Baccalauréat",
+      "startDate": "2016-01-01",
+      "endDate": "2019-01-01",
+      "score": "Baccalauréat Série A2 (2019)",
+      "courses": [
+        "Spécialisation : Études culinaires (Cuisine chinoise, viennoiserie, pâtisserie)",
+        "Cours Aceem Ankadivato (Seconde à Terminale)"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Mécanique moteur",
+      "level": "Intermédiaire",
+      "keywords": ["Moteurs essence", "Moteurs diesel", "Diagnostic"]
+    },
+    {
+      "name": "Électricité automobile",
+      "level": "Avancé",
+      "keywords": ["Systèmes électriques", "Diagnostic électrique"]
+    },
+    {
+      "name": "Diagnostic et réparation",
+      "level": "Intermédiaire",
+      "keywords": []
+    },
+    {
+      "name": "WordPress / HTML / CSS",
+      "level": "Notions",
+      "keywords": ["HTML", "CSS", "WordPress"]
+    },
+    {
+      "name": "Photographie événementielle",
+      "level": "Avancé",
+      "keywords": ["Portraits", "Mariages", "Post-production"]
+    },
+    {
+      "name": "Communication & relation client",
+      "level": "Avancé",
+      "keywords": []
+    },
+    {
+      "name": "Adaptabilité / Esprit d'équipe",
+      "level": "Avancé",
+      "keywords": []
+    }
+  ],
+  "languages": [
+    {
+      "language": "Français",
+      "fluency": "Courant"
+    },
+    {
+      "language": "Anglais",
+      "fluency": "Intermédiaire (Formation FLTC)"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Basket"
+    },
+    {
+      "name": "Natation"
+    },
+    {
+      "name": "Photographie"
+    },
+    {
+      "name": "Conduite"
+    },
+    {
+      "name": "Mécanique"
+    }
+  ],
+  "references": [],
+  "meta": {
+    "slug": "mihaja",
+    "theme": "modern-blue",
+    "permit": "Permis B (2021, Auto-école Christella Ankadindramamy)",
+    "certificates": [
+      "Permis B — Auto-école Christella Ankadindramamy (2021)",
+      "Concours de langue française — Alliance Française d'Antananarivo (2014, 2017)"
+    ],
+    "objective": "Rechercher un poste ou stage dans un garage, centre de formation ou entreprise industrielle souhaitant intégrer un profil polyvalent en mécanique, relation client et technologie."
+  }
+}

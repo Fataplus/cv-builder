@@ -1,0 +1,92 @@
+/* ============================================
+   PRINT / PDF STYLES — ATS-Friendly
+   ============================================
+   When printing or exporting to PDF, we strip all
+   interactive elements and ensure clean text flow
+   for ATS parsers. One page = A4, proper margins.
+   ============================================ */
+
+@media print {
+  /* Force colors to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide non-printable UI */
+  .no-print,
+  .toolbar,
+  .print-button,
+  nav.toolbar,
+  .download-pdf-btn {
+    display: none !important;
+  }
+
+  /* Page setup — A4 with proper margins */
+  @page {
+    size: A4;
+    margin: 12mm 15mm;
+  }
+
+  /* Ensure body uses full width */
+  body {
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    color: #1a1a1a !important;
+    background: white !important;
+  }
+
+  /* Avoid page breaks inside sections */
+  .cv-section,
+  .experience-item,
+  .education-item,
+  .skill-group {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Keep headings with following content */
+  h1, h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Links: show URL in print for ATS */
+  a[href]:after {
+    content: '';
+  }
+
+  /* Remove shadows and decorative effects */
+  .cv-container {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Sidebars become full-width in print for linear text flow */
+  .cv-sidebar {
+    background: #f5f5f5 !important;
+    color: #1a1a1a !important;
+  }
+
+  /* Skill bars: show as text in print */
+  .skill-bar {
+    display: none !important;
+  }
+
+  .skill-level-text {
+    display: inline !important;
+  }
+}
+
+/* Screen-only: show skill level text hidden by default */
+.skill-level-text {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .cv-main-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
