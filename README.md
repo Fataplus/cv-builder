@@ -1,50 +1,44 @@
 # CV Builder — Nexio
 
-ATS-friendly CV builder. JSON → HTML → PDF. Deployed on Cloudflare Pages at **cv.nexio.work**.
+> Générateur de CV statiques **ATS-friendly** — JSON → HTML → PDF  
+> Déployé sur **cv.nexio.work**
 
-## Architecture
+## Docs
 
-- **Astro** — Static site generator, zero JS by default
-- **Tailwind CSS 3** — Styling
-- **JSON Resume schema** — Standard CV data format ([jsonresume.org](https://jsonresume.org))
-- **Print CSS** — PDF export via `window.print()`, optimized for ATS parsers
-- **Cloudflare Pages** — Hosting + CI/CD via GitHub Actions
+| Doc | Contenu |
+|---|---|
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | Vue d'ensemble, stack, structure, data flow, ATS features |
+| [THEME-ENGINE.md](./docs/THEME-ENGINE.md) | Les 6 thèmes, comment ça marche, comment en ajouter |
+| [ADDING-CV.md](./docs/ADDING-CV.md) | Guide pas-à-pas pour créer un nouveau CV |
+| [DEPLOYMENT.md](./docs/DEPLOYMENT.md) | CI/CD, Cloudflare Pages, troubleshooting |
+| [ROADMAP.md](./docs/ROADMAP.md) | Ce qui est fait, en cours, planifié |
 
-## Adding a new CV
-
-1. Create a JSON file in `src/cvs/{slug}.json` (follow `src/cvs/mihaja.json` as template)
-2. Create a page in `src/pages/{slug}.astro` that imports the JSON
-3. Add the CV to the list in `src/pages/index.astro`
-4. Push to `main` → CI/CD auto-deploys
-
-## ATS-Friendly Features
-
-- **Semantic HTML**: `<h1>` for name, `<h2>` for sections, `<article>` for entries
-- **JSON-LD structured data**: Schema.org `Person` type embedded
-- **Real text**: No JavaScript-rendered content, all server-side
-- **Print CSS**: Clean A4 layout, proper margins, no page breaks inside sections
-- **Skill levels as text**: Visible in print/PDF for ATS keyword matching
-- **Standard fonts**: Inter (web-safe fallback to system-ui)
-
-## Development
+## Démarrage rapide
 
 ```bash
 npm install --legacy-peer-deps
 npm run dev      # http://localhost:4321
-npm run build    # outputs to dist/
-npm run preview  # preview production build
+npm run build    # → dist/
+npm run preview  # preview production
 ```
 
-## CI/CD
+## Stack
 
-GitHub Actions workflow in `.github/workflows/deploy.yml`:
-1. On push to `main` → install → build → deploy to Cloudflare Pages
-2. Domain: `cv.nexio.work`
+- **Astro 7** — Static Site Generator, zero JS
+- **Tailwind CSS 3** — Styling
+- **JSON Resume** — Format de data standard
+- **Cloudflare Pages** — Hosting + CI/CD
+- **GitHub Actions** — Auto-deploy sur push `main`
 
-### Required GitHub Secrets
-- `CLOUDFLARE_API_TOKEN` — Cloudflare API token with Pages permissions
-- `CLOUDFLARE_ACCOUNT_ID` — Cloudflare account ID
+## Routes
 
-## License
+| Route | Description |
+|---|---|
+| `/` | Page d'accueil |
+| `/mihaja` | CV Mihaja (thème par défaut) |
+| `/themes` | Catalogue des 6 thèmes |
+| `/mihaja--{theme}` | CV Mihaja en thème spécifique |
+
+## Licence
 
 MIT — FATAPLUS
