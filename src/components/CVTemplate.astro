@@ -64,8 +64,7 @@ const firstName = nameParts.join(' ') || '';
     <header class="cv-header">
       <div class="header-top">
         <h1 class="cv-name">
-          <span class="first-name">{firstName}</span>
-          <span class="last-name">{lastName}</span>
+          <span class="first-name">{firstName}</span>{firstName && ' '}<span class="last-name">{lastName}</span>
         </h1>
         <p class="cv-title">{basics.label}</p>
       </div>
