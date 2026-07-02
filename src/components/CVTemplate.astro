@@ -1,11 +1,8 @@
 ---
-// CV Template — Modern Blue (ATS-friendly)
-// Semantic HTML structure: header > contact, main > sections
-// All text is real HTML text (no JS rendering), ensuring ATS parsers can read it
-export interface CVProps {
-  data: any;
-}
-
+// CV Template — Modern Editorial (ATS-friendly)
+// Inspired by: resume-modern (A4 minimal) + frontend-design (anti-AI-slop craft)
+// Direction: editorial, typography-driven, monochrome + 1 accent
+// No gradients, no glass cards, no decorative blobs — just hierarchy and whitespace.
 const { data } = Astro.props;
 
 const basics = data.basics || {};
@@ -17,27 +14,26 @@ const interests = data.interests || [];
 const meta = data.meta || {};
 
 // Format date range
-function formatDateRange(start: string | null, end: string | null): string {
-  const fmt = (d: string | null) => {
-    if (!d) return '';
-    try {
-      const date = new Date(d);
-      return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-    } catch {
-      return d;
-    }
-  };
-  const startStr = fmt(start);
-  const endStr = end ? fmt(end) : 'Présent';
-  if (startStr && endStr) return `${startStr} — ${endStr}`;
-  return endStr;
+function fmtDate(d: string | null): string {
+  if (!d) return '';
+  try {
+    const date = new Date(d);
+    return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+  } catch {
+    return d;
+  }
 }
 
-// Map skill level to number of bars (out of 4)
-function levelToBars(level: string): number {
+function formatDateRange(start: string | null, end: string | null): string {
+  const s = fmtDate(start);
+  const e = end ? fmtDate(end) : "Présent";
+  return s ? `${s} — ${e}` : e;
+}
+
+// Map skill level to dots
+function levelToDots(level: string): number {
   const map: Record<string, number> = {
-    'Notions': 1,
-    'Débutant': 1,
+    'Notions': 1, 'Débutant': 1,
     'Intermédiaire': 2,
     'Avancé': 3,
     'Expert': 4,
@@ -46,241 +42,375 @@ function levelToBars(level: string): number {
 }
 
 const fullName = basics.name || '';
-const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 3);
+const nameParts = fullName.split(' ');
+const lastName = nameParts.pop() || fullName;
+const firstName = nameParts.join(' ') || '';
 ---
 
-<div class="cv-container bg-white shadow-2xl mx-auto" style="max-width: 210mm; min-height: 297mm;">
-  <!-- TOOLBAR: Screen-only, hidden in print -->
-  <div class="toolbar no-print sticky top-0 z-50 bg-brand-600 text-white px-6 py-3 flex items-center justify-between shadow-md">
-    <div class="flex items-center gap-3">
-      <span class="text-sm font-medium opacity-90">CV — {fullName}</span>
-    </div>
-    <div class="flex items-center gap-3">
-      <button
-        onclick="window.print()"
-        class="download-pdf-btn bg-white/15 hover:bg-white/25 transition-colors px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger PDF
-      </button>
-    </div>
+<div class="cv-page">
+  <!-- TOOLBAR: screen-only -->
+  <div class="toolbar no-print">
+    <span class="toolbar-label">CV — {fullName}</span>
+    <button onclick="window.print()" class="pdf-btn" aria-label="Télécharger en PDF">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Télécharger PDF</span>
+    </button>
   </div>
 
-  <!-- ATS-FRIENDLY STRUCTURE: Two-column layout, semantic HTML -->
-  <div class="cv-main-grid grid" style="grid-template-columns: 35% 65%;">
+  <!-- A4 SHEET -->
+  <article class="cv-sheet">
 
-    <!-- SIDEBAR: Contact, Skills, Languages, Interests -->
-    <aside class="cv-sidebar bg-brand-800 text-white p-6">
-      <!-- Avatar / Initials -->
-      <div class="text-center mb-6">
-        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-brand-600 text-3xl font-bold ring-4 ring-brand-400/30">
-          {initials}
-        </div>
+    <!-- HEADER: Name + Title + Contact bar -->
+    <header class="cv-header">
+      <div class="header-top">
+        <h1 class="cv-name">
+          <span class="first-name">{firstName}</span>
+          <span class="last-name">{lastName}</span>
+        </h1>
+        <p class="cv-title">{basics.label}</p>
       </div>
 
-      <!-- CONTACT — ATS reads this section for phone/email/location -->
-      <section class="mb-6">
-        <h2 class="text-xs uppercase tracking-wider font-bold text-brand-300 mb-3 border-b border-brand-600 pb-2">
-          Contact
-        </h2>
-        <ul class="space-y-2 text-sm">
-          {basics.phone && (
-            <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0 text-brand-300"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <span>{basics.phone}</span>
-            </li>
-          )}
-          {basics.email && (
-            <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0 text-brand-300"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span class="break-all">{basics.email}</span>
-            </li>
-          )}
-          {basics.location && (
-            <li class="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 flex-shrink-0 text-brand-300"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>{[basics.location.city, basics.location.countryCode].filter(Boolean).join(', ')}</span>
-            </li>
-          )}
-        </ul>
-        {meta.permit && (
-          <p class="mt-2 text-xs text-brand-300">{meta.permit}</p>
-        )}
+      <!-- Contact: single line, pipe-separated -->
+      <nav class="contact-bar" aria-label="Coordonnées">
+        {basics.email && <span class="contact-item">{basics.email}</span>}
+        {basics.phone && <span class="sep" aria-hidden="true">·</span>}
+        {basics.phone && <span class="contact-item">{basics.phone}</span>}
+        {basics.location?.city && <span class="sep" aria-hidden="true">·</span>}
+        {basics.location?.city && <span class="contact-item">{basics.location.city}, {basics.location.countryCode}</span>}
+        {meta.permit && <span class="sep" aria-hidden="true">·</span>}
+        {meta.permit && <span class="contact-item permit">{meta.permit}</span>}
+      </nav>
+
+      <div class="header-rule"></div>
+    </header>
+
+    <!-- SUMMARY -->
+    {basics.summary && (
+      <section class="cv-summary">
+        <p>{basics.summary}</p>
       </section>
+    )}
 
-      <!-- SKILLS — ATS keyword extraction section -->
-      <section class="mb-6">
-        <h2 class="text-xs uppercase tracking-wider font-bold text-brand-300 mb-3 border-b border-brand-600 pb-2">
-          Compétences
-        </h2>
-        <ul class="space-y-2.5">
-          {skills.map((skill: any) => {
-            const bars = levelToBars(skill.level);
-            return (
-              <li>
-                <p class="text-sm font-medium">{skill.name}</p>
-                <!-- ATS: skill level as text (hidden on screen, visible in print) -->
-                <span class="skill-level-text text-xs text-brand-300">{skill.level}</span>
-                <div class="skill-bar flex gap-1 mt-1">
-                  {[1, 2, 3, 4].map((n) => (
-                    <div class={`h-1.5 flex-1 rounded-full ${n <= bars ? 'bg-brand-400' : 'bg-brand-600/40'}`}></div>
-                  ))}
-                </div>
-                {skill.keywords && skill.keywords.length > 0 && (
-                  <p class="text-xs text-brand-300 mt-0.5">{skill.keywords.join(', ')}</p>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+    <!-- TWO COLUMNS: Main (60%) + Aside (40%) -->
+    <div class="cv-cols">
 
-      <!-- LANGUAGES -->
-      <section class="mb-6">
-        <h2 class="text-xs uppercase tracking-wider font-bold text-brand-300 mb-3 border-b border-brand-600 pb-2">
-          Langues
-        </h2>
-        <ul class="space-y-1.5 text-sm">
-          {languages.map((lang: any) => (
-            <li class="flex justify-between">
-              <span>{lang.language}</span>
-              <span class="text-brand-300 text-xs">{lang.fluency}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <!-- MAIN COLUMN -->
+      <div class="cv-main">
 
-      <!-- INTERESTS -->
-      <section>
-        <h2 class="text-xs uppercase tracking-wider font-bold text-brand-300 mb-3 border-b border-brand-600 pb-2">
-          Centres d'intérêt
-        </h2>
-        <div class="flex flex-wrap gap-2">
-          {interests.map((interest: any) => (
-            <span class="text-xs bg-brand-700/60 px-2.5 py-1 rounded-full">{interest.name}</span>
-          ))}
-        </div>
-      </section>
-    </aside>
-
-    <!-- MAIN: Profile, Experience, Education -->
-    <main class="cv-main bg-white p-6">
-      <!-- HEADER: Name + Title — ATS key fields -->
-      <header class="mb-6 pb-4 border-b-2 border-brand-100">
-        <h1 class="text-3xl font-bold text-brand-900 tracking-tight">{fullName}</h1>
-        <p class="text-lg text-brand-600 font-medium mt-1">{basics.label}</p>
-      </header>
-
-      <!-- SUMMARY / OBJECTIVE -->
-      {basics.summary && (
-        <section class="cv-section mb-6">
-          <h2 class="text-sm uppercase tracking-wider font-bold text-brand-700 mb-2">
-            Profil
-          </h2>
-          <p class="text-sm text-gray-700 leading-relaxed">{basics.summary}</p>
-        </section>
-      )}
-
-      {meta.objective && (
-        <section class="cv-section mb-6">
-          <h2 class="text-sm uppercase tracking-wider font-bold text-brand-700 mb-2">
-            Objectif professionnel
-          </h2>
-          <p class="text-sm text-gray-700 leading-relaxed">{meta.objective}</p>
-        </section>
-      )}
-
-      <!-- EXPERIENCE — ATS core parsing section -->
-      <section class="cv-section mb-6">
-        <h2 class="text-sm uppercase tracking-wider font-bold text-brand-700 mb-3">
-          Expérience professionnelle
-        </h2>
-        <div class="space-y-4">
-          {work.map((job: any) => (
-            <article class="experience-item">
-              <div class="flex justify-between items-baseline mb-0.5">
-                <h3 class="text-sm font-bold text-gray-900">{job.position}</h3>
-                <span class="text-xs text-gray-500 whitespace-nowrap">
-                  {formatDateRange(job.startDate, job.endDate)}
-                </span>
-              </div>
-              <p class="text-sm text-brand-600 font-medium mb-1">{job.name}</p>
-              {job.summary && (
-                <p class="text-xs text-gray-600 mb-1.5">{job.summary}</p>
-              )}
-              {job.highlights && job.highlights.length > 0 && (
-                <ul class="text-xs text-gray-700 space-y-0.5 ml-4 list-disc">
-                  {job.highlights.map((h: string) => (
-                    <li>{h}</li>
-                  ))}
-                </ul>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <!-- EDUCATION -->
-      <section class="cv-section mb-6">
-        <h2 class="text-sm uppercase tracking-wider font-bold text-brand-700 mb-3">
-          Formation
-        </h2>
-        <div class="space-y-4">
-          {education.map((edu: any) => (
-            <article class="education-item">
-              <div class="flex justify-between items-baseline mb-0.5">
-                <h3 class="text-sm font-bold text-gray-900">{edu.studyType}</h3>
-                <span class="text-xs text-gray-500 whitespace-nowrap">
-                  {formatDateRange(edu.startDate, edu.endDate)}
-                </span>
-              </div>
-              <p class="text-sm text-brand-600 font-medium mb-0.5">{edu.institution}</p>
-              <p class="text-xs text-gray-600">{edu.area}</p>
-              {edu.score && (
-                <p class="text-xs text-gray-500 mt-0.5">{edu.score}</p>
-              )}
-              {edu.courses && edu.courses.length > 0 && (
-                <ul class="text-xs text-gray-700 space-y-0.5 ml-4 list-disc mt-1">
-                  {edu.courses.map((c: string) => (
-                    <li>{c}</li>
-                  ))}
-                </ul>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <!-- CERTIFICATES -->
-      {meta.certificates && meta.certificates.length > 0 && (
+        <!-- EXPERIENCE -->
         <section class="cv-section">
-          <h2 class="text-sm uppercase tracking-wider font-bold text-brand-700 mb-3">
-            Certifications
-          </h2>
-          <ul class="text-xs text-gray-700 space-y-1 ml-4 list-disc">
-            {meta.certificates.map((cert: string) => (
-              <li>{cert}</li>
+          <h2 class="section-title"><span class="title-mark"></span>Expérience</h2>
+          <div class="entries">
+            {work.map((job: any) => (
+              <article class="entry">
+                <div class="entry-head">
+                  <h3 class="entry-role">{job.position}</h3>
+                  <span class="entry-date">{formatDateRange(job.startDate, job.endDate)}</span>
+                </div>
+                <p class="entry-org">{job.name}</p>
+                {job.highlights && job.highlights.length > 0 && (
+                  <ul class="entry-bullets">
+                    {job.highlights.map((h: string) => <li>{h}</li>)}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="cv-section">
+          <h2 class="section-title"><span class="title-mark"></span>Formation</h2>
+          <div class="entries">
+            {education.map((edu: any) => (
+              <article class="entry">
+                <div class="entry-head">
+                  <h3 class="entry-role">{edu.studyType} — {edu.area}</h3>
+                  <span class="entry-date">{formatDateRange(edu.startDate, edu.endDate)}</span>
+                </div>
+                <p class="entry-org">{edu.institution}</p>
+                {edu.courses && edu.courses.length > 0 && (
+                  <ul class="entry-bullets">
+                    {edu.courses.map((c: string) => <li>{c}</li>)}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <!-- CERTIFICATES -->
+        {meta.certificates && meta.certificates.length > 0 && (
+          <section class="cv-section">
+            <h2 class="section-title"><span class="title-mark"></span>Certifications</h2>
+            <ul class="entry-bullets cert-list">
+              {meta.certificates.map((cert: string) => <li>{cert}</li>)}
+            </ul>
+          </section>
+        )}
+
+        <!-- OBJECTIVE -->
+        {meta.objective && (
+          <section class="cv-section">
+            <h2 class="section-title"><span class="title-mark"></span>Objectif</h2>
+            <p class="entry-text">{meta.objective}</p>
+          </section>
+        )}
+      </div>
+
+      <!-- ASIDE COLUMN -->
+      <aside class="cv-aside">
+
+        <!-- SKILLS -->
+        <section class="aside-section">
+          <h2 class="aside-title">Compétences</h2>
+          <ul class="skill-list">
+            {skills.map((skill: any) => {
+              const dots = levelToDots(skill.level);
+              return (
+                <li class="skill-item">
+                  <span class="skill-name">{skill.name}</span>
+                  <span class="skill-dots" aria-label={skill.level}>
+                    {[1, 2, 3, 4].map((n) => (
+                      <span class={`dot ${n <= dots ? 'dot-on' : 'dot-off'}`}></span>
+                    ))}
+                  </span>
+                  <span class="skill-level-print">{skill.level}</span>
+                  {skill.keywords?.length > 0 && (
+                    <span class="skill-keywords">{skill.keywords.join(', ')}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <!-- LANGUAGES -->
+        <section class="aside-section">
+          <h2 class="aside-title">Langues</h2>
+          <ul class="lang-list">
+            {languages.map((lang: any) => (
+              <li class="lang-item">
+                <span class="lang-name">{lang.language}</span>
+                <span class="lang-level">{lang.fluency}</span>
+              </li>
             ))}
           </ul>
         </section>
-      )}
-    </main>
-  </div>
+
+        <!-- INTERESTS -->
+        <section class="aside-section">
+          <h2 class="aside-title">Centres d'intérêt</h2>
+          <div class="interest-tags">
+            {interests.map((interest: any) => (
+              <span class="interest-tag">{interest.name}</span>
+            ))}
+          </div>
+        </section>
+      </aside>
+    </div>
+  </article>
 </div>
 
-<!-- Hidden ATS data block — structured data for parsers that look for JSON-LD -->
+<!-- ATS structured data -->
 <script type="application/ld+json" set:html={JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: basics.name,
   email: basics.email,
   telephone: basics.phone,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: basics.location?.city,
-    addressCountry: basics.location?.countryCode,
-  },
+  address: { '@type': 'PostalAddress', addressLocality: basics.location?.city, addressCountry: basics.location?.countryCode },
   jobTitle: basics.label,
   description: basics.summary,
   knowsAbout: skills.map((s: any) => s.name),
 })} />
+
+<style>
+  /* ===== DESIGN TOKENS ===== */
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #444;
+    --ink-muted: #666;
+    --ink-faint: #999;
+    --paper: #ffffff;
+    --paper-warm: #faf9f7;
+    --accent: #1e3a5f;
+    --accent-light: #e8edf3;
+    --accent-line: #1e3a5f;
+    --hairline: #e0ddd8;
+    --hairline-soft: #efeae4;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: 'Georgia', 'Cambria', serif;
+  }
+
+  /* ===== RESET & BASE ===== */
+  .cv-page { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  /* ===== TOOLBAR ===== */
+  .toolbar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px;
+    background: var(--ink); color: #fff;
+  }
+  .toolbar-label { font-size: 13px; font-weight: 500; opacity: 0.85; }
+  .pdf-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: background 0.15s ease;
+  }
+  .pdf-btn:hover { background: rgba(255,255,255,0.22); }
+  .pdf-btn:active { transform: translateY(1px); }
+
+  /* ===== A4 SHEET ===== */
+  .cv-sheet {
+    max-width: 210mm; min-height: 297mm; margin: 0 auto;
+    background: var(--paper);
+    padding: 18mm 16mm;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.06);
+  }
+
+  /* ===== HEADER ===== */
+  .cv-header { margin-bottom: 28px; }
+  .header-top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 0; }
+  .cv-name { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+  .first-name { color: var(--ink); }
+  .last-name { color: var(--accent); margin-left: 8px; }
+  .cv-title { font-size: 14px; font-weight: 500; color: var(--ink-muted); margin: 4px 0 0; letter-spacing: 0.01em; }
+
+  .contact-bar {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 0; margin-top: 10px;
+    font-size: 12px; color: var(--ink-soft);
+  }
+  .contact-item { font-weight: 400; }
+  .contact-item.permit { color: var(--ink-faint); font-size: 11px; }
+  .sep { margin: 0 8px; color: var(--ink-faint); font-weight: 300; }
+
+  .header-rule {
+    margin-top: 14px; height: 2px;
+    background: var(--ink); border: none;
+  }
+
+  /* ===== SUMMARY ===== */
+  .cv-summary {
+    margin-bottom: 28px; padding: 0;
+    font-family: var(--font-serif); font-size: 14px; line-height: 1.65;
+    color: var(--ink-soft); font-style: italic;
+    max-width: 90%;
+  }
+
+  /* ===== TWO COLUMNS ===== */
+  .cv-cols {
+    display: grid; grid-template-columns: 1fr 0.55fr;
+    gap: 36px;
+  }
+
+  /* ===== SECTION TITLES (MAIN) ===== */
+  .section-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--accent);
+    margin: 0 0 16px;
+  }
+  .title-mark {
+    display: inline-block; width: 24px; height: 2px;
+    background: var(--accent); flex-shrink: 0;
+  }
+
+  /* ===== ENTRIES ===== */
+  .entries { display: flex; flex-direction: column; gap: 18px; }
+  .entry { border-left: none; }
+  .entry-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; margin-bottom: 1px;
+  }
+  .entry-role { font-size: 13.5px; font-weight: 600; color: var(--ink); margin: 0; line-height: 1.3; }
+  .entry-date { font-size: 11px; color: var(--ink-faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .entry-org { font-size: 12.5px; color: var(--accent); font-weight: 500; margin: 0 0 4px; }
+  .entry-text { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; margin: 0; }
+
+  .entry-bullets {
+    list-style: none; padding: 0; margin: 4px 0 0;
+    font-size: 12px; color: var(--ink-soft); line-height: 1.55;
+  }
+  .entry-bullets li {
+    position: relative; padding-left: 14px; margin-bottom: 2px;
+  }
+  .entry-bullets li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 5px; height: 1px; background: var(--accent);
+  }
+  .cert-list { margin-top: 0; }
+
+  /* ===== MAIN COLUMN SECTIONS ===== */
+  .cv-section { margin-bottom: 26px; }
+  .cv-section:last-child { margin-bottom: 0; }
+
+  /* ===== ASIDE ===== */
+  .cv-aside { display: flex; flex-direction: column; gap: 24px; }
+  .aside-section {}
+  .aside-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--accent);
+    margin: 0 0 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  /* ===== SKILLS ===== */
+  .skill-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .skill-item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 8px; }
+  .skill-name { font-size: 12px; font-weight: 500; color: var(--ink); }
+  .skill-dots { display: inline-flex; gap: 3px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .dot-on { background: var(--accent); }
+  .dot-off { background: var(--hairline); }
+  .skill-level-print { display: none; font-size: 10px; color: var(--ink-faint); }
+  .skill-keywords {
+    grid-column: 1 / -1; font-size: 10.5px; color: var(--ink-faint);
+    margin-top: 1px; line-height: 1.4;
+  }
+
+  /* ===== LANGUAGES ===== */
+  .lang-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .lang-item { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .lang-name { font-size: 12px; font-weight: 500; color: var(--ink); }
+  .lang-level { font-size: 10.5px; color: var(--ink-faint); }
+
+  /* ===== INTERESTS ===== */
+  .interest-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .interest-tag {
+    font-size: 11px; padding: 3px 10px;
+    border: 1px solid var(--hairline); border-radius: 3px;
+    color: var(--ink-soft); background: var(--paper-warm);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media screen and (max-width: 860px) {
+    .cv-cols { grid-template-columns: 1fr; gap: 24px; }
+    .cv-sheet { padding: 14mm 10mm; }
+    .header-top { flex-direction: column; align-items: flex-start; }
+    .cv-name { font-size: 26px; }
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    .toolbar, .no-print { display: none !important; }
+    .cv-sheet {
+      max-width: none; min-height: auto; margin: 0;
+      padding: 0; box-shadow: none;
+    }
+    @page { size: A4; margin: 12mm 14mm; }
+    body { font-size: 10.5pt; }
+    .cv-summary { max-width: 100%; }
+    .skill-dots { display: none; }
+    .skill-level-print { display: inline; }
+    .cv-cols { gap: 24px; }
+    .entry, .aside-section, .cv-section { page-break-inside: avoid; }
+    .section-title, .aside-title, h1, h2, h3 { page-break-after: avoid; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
