@@ -129,7 +129,16 @@ const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice
         </section>
         <section class="ab">
           <h2 class="at">Centres d'intérêt</h2>
-          <div class="tags">{interests.map((i: any) => <span class="tag">{i.name}</span>)}</div>
+          <div class="tags">
+            {interests.map((i: any) => (
+              <span class="tag" title={i.keywords ? i.keywords.join(', ') : ''}>
+                {i.name}
+                {i.keywords && i.keywords.length > 0 && (
+                  <span class="tag-details">({i.keywords.join(', ')})</span>
+                )}
+              </span>
+            ))}
+          </div>
         </section>
       </aside>
     </div>
@@ -205,8 +214,9 @@ const initials = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice
   .lgn { font-size: 12px; font-weight: 500; }
   .lgl { font-size: 10.5px; }
 
-  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .tag { font-size: 11px; padding: 3px 10px; border-radius: 3px; }
+  .tags { display: flex; flex-direction: column; gap: 6px; }
+  .tag { font-size: 11px; padding: 4px 10px; border-radius: 4px; display: block; width: 100%; }
+  .tag-details { display: block; font-size: 9.5px; opacity: 0.7; margin-top: 2px; }
 
   /* ===== THEME: EDITORIAL (navy on white, serif summary) ===== */
   .theme-editorial { color: #1a1a1a; }
