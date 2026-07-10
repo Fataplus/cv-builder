@@ -141,29 +141,56 @@
       "area": "Figma EDU Professional Certification",
       "studyType": "Certification",
       "startDate": "2024-01-01",
-      "endDate": "2024-12-31"
+      "endDate": "2024-12-31",
+      "summary": "Licensed Educational Provider pour Figma à Madagascar. Formation et mentorat de plus de 50 designers."
     },
     {
       "institution": "Google",
-      "area": "Google UX Design Certificate",
-      "studyType": "Professional Certificate",
+      "area": "Google UX Design Professional Certificate",
+      "studyType": "Certification",
       "startDate": "2023-01-01",
-      "endDate": "2023-12-31"
+      "endDate": "2023-12-31",
+      "summary": "User research, wireframing, prototypage haute-fidélité, tests d'utilisabilité, design inclusif et accessibilité."
     },
     {
       "institution": "Uxcel",
-      "area": "Verified Designer Assessment (Top 30% mondial)",
-      "studyType": "Assessment",
+      "area": "Verified UX/UI Designer (Top 30% mondial)",
+      "studyType": "Certification & Assessments",
       "startDate": "2022-01-01",
-      "endDate": "2022-12-31"
+      "endDate": "2022-12-31",
+      "summary": "Certifications obtenues : UX Design Foundations, Design Terminology, Color Psychology for UX/UI, UX Research (Intermediate)."
     },
     {
-      "institution": "The Hacking Project",
-      "area": "Bootcamp Développeur Fullstack",
-      "studyType": "Bootcamp",
+      "institution": "EF SET (EnglishScore)",
+      "area": "EF SET English Certificate — B1 Intermediate",
+      "studyType": "Certification de Langue",
+      "startDate": "2021-11-09",
+      "endDate": "2021-11-09",
+      "summary": "Score: 45/100 (CEFR B1) - Compétences validées en compréhension écrite (Reading) et orale (Listening)."
+    },
+    {
+      "institution": "FutureLearn / Université partenaire",
+      "area": "Digital Skills: User Experience",
+      "studyType": "Certification",
+      "startDate": "2021-01-01",
+      "endDate": "2021-12-31",
+      "summary": "Compétences numériques appliquées à l'expérience utilisateur (UX)."
+    },
+    {
+      "institution": "The Hacking Project (Sayna)",
+      "area": "Bootcamp Développeur Web Fullstack",
+      "studyType": "Formation Professionnelle",
       "startDate": "2019-01-01",
       "endDate": "2020-12-31",
-      "summary": "Ruby on Rails, JavaScript, HTML/CSS, SQL, Git, peer-learning"
+      "summary": "Formation pratique intensive en méthode agile, Ruby on Rails, JavaScript, bases de données SQL, Git et peer-learning."
+    },
+    {
+      "institution": "Institut Confucius d'Antananarivo",
+      "area": "Langue et Culture Chinoises (Bac+2 / 3 ans d'études)",
+      "studyType": "Formation Académique",
+      "startDate": "2015-09-01",
+      "endDate": "2018-06-30",
+      "summary": "Étude approfondie de la langue chinoise mandarin (niveaux HSK) et de la culture."
     }
   ],
   "skills": [
