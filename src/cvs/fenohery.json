@@ -5,7 +5,7 @@
     "email": "fenohery.fanomezanirina@gmail.com",
     "phone": "+261 34 20 472 13",
     "url": "https://github.com/fenoh3ry",
-    "summary": "Développeur fullstack et UX/UI Designer avec plus de 5 ans d'expérience en développement web/mobile et design de produits digitaux. CEO fondateur de FATAPLUS, agence de product design et innovation digitale à Madagascar. Expérience en développement fullstack (React, Flutter, PHP, Node.js), design UX/UI certifié (Google UX, Figma EDU), et gestion d'équipe. Clients internationaux (France, UK, Madagascar). Bilingue français/anglais.",
+    "summary": "Développeur fullstack et UX/UI Designer avec plus de 9 ans d'expérience en design et développement de produits digitaux (web, mobile, SaaS, systèmes agentiques). CEO fondateur de FATAPLUS, agence de product design et d'ingénierie logicielle basée à Madagascar. Expertise transverse combinant le design de haut niveau (certifié Google UX, Figma EDU), le développement d'architectures distribuées et serverless (Cloudflare Workers, D1, KV, Postgres) et l'intégration d'IA (pipelines RAG, LLM et orchestration multi-agents). Orienté impact business et qualité d'exécution (Vibecode).",
     "location": {
       "city": "Antananarivo",
       "countryCode": "MG",
@@ -35,84 +35,103 @@
       "position": "CEO & Lead Product Design Consultant",
       "url": "https://fata.plus",
       "startDate": "2023-10-01",
-      "summary": "Fondation de la première agence de product design spécialisée agritech et innovation industrielle à Madagascar.",
+      "summary": "Fondation de la première agence de product design et d'ingénierie produit spécialisée agritech, SaaS et solutions IA à Madagascar. Pilotage stratégique et technique (15+ projets livrés).",
       "highlights": [
-        "Développement fullstack de plateformes web et mobile (React, Flutter, PHP, Node.js, Cloudflare D1)",
-        "Gestion d'infrastructure Linux (VPS), Docker, reverse proxy, CI/CD",
-        "Lauréat programme PIC3 Miary Digital-Agri — plateforme agritech IA (marketplace, assistant IA, gestion élevage)",
-        "Collaborations stratégiques : Here2Be, Riake, ARC MG (UK/Madagascar)",
-        "Bootcamp Figma EDU certifié : formation de 50+ designers en 12 semaines",
-        "Livraison de 15+ projets clients : SaaS, LMS, e-commerce, applications mobiles"
+        "Conception et développement d'architectures IA avancées (pipelines RAG, agents autonomes de crawling et d'enrichissement de leads comme EDBM Companies)",
+        "Développement de DataRouter (B2B data router multi-provider) avec Hono, Cloudflare Workers, KV, D1, et chiffrement AES-256-GCM",
+        "Développement d'applications mobiles et d'interfaces d'administration (React Native/Expo, SvelteKit, Astro, Next.js)",
+        "Gestion complète d'infrastructures serverless et conteneurisées (VPS, Docker, 9Router, Caddy, CI/CD GitHub Actions)",
+        "Lauréat du programme PIC3 Miary Digital-Agri de la Banque Mondiale (Plateforme Agritech IA)",
+        "Bootcamp Figma EDU certifié : formation et mentorat de plus de 50 designers à Madagascar"
       ]
     },
     {
       "name": "Unité de Gouvernance Digitale (UGD), Présidence de Madagascar",
-      "position": "UX/UI Designer",
+      "position": "UX/UI Designer & Consultat Tech",
       "url": "https://digital.gov.mg",
       "startDate": "2021-11-01",
       "endDate": "2022-12-01",
-      "summary": "Lead design pour la transformation numérique nationale, plateforme d'identité digitale.",
+      "summary": "Conception de l'identité numérique nationale et modernisation des services publics digitaux.",
       "highlights": [
-        "Projet Vakisiny : UX pour le système national de certificat de vaccination COVID-19",
-        "Implémentation des standards d'accessibilité WCAG pour les services publics digitaux",
-        "Collaboration avec décideurs politiques et équipes techniques"
+        "Lead design pour la refonte de la plateforme nationale d'identité numérique et portail citoyen",
+        "Projet Vakisiny : UX/UI et architecture d'information pour le certificat de vaccination COVID-19 national (millions d'utilisateurs)",
+        "Mise en conformité des plateformes gouvernementales aux standards d'accessibilité WCAG",
+        "Collaboration étroite avec les cabinets ministériels et les équipes de développement"
       ]
     },
     {
       "name": "EDBM (Economic Development Board of Madagascar)",
-      "position": "UX/UI Designer",
+      "position": "UX/UI Designer & Product Owner",
       "url": "https://orinasa.edbm.mg",
       "startDate": "2019-11-01",
       "endDate": "2021-10-01",
-      "summary": "Projet Orinasa : plateforme digitale d'accélération de la création d'entreprises à Madagascar.",
+      "summary": "Conception et pilotage du projet Orinasa, guichet unique de création d'entreprises à Madagascar.",
       "highlights": [
-        "Design de plateformes pour la promotion de l'investissement étranger",
-        "Ateliers stakeholders pour traduire les exigences économiques en outils digitaux intuitifs"
+        "Design thinking et facilitation d'ateliers avec les ministères et les bailleurs de fonds internationaux (Banque Mondiale, SFI)",
+        "Refonte de la plateforme d'accélération de création d'entreprises (orinasa.edbm.mg), réduction du temps de traitement administratif",
+        "Conception de portails d'investissement et de dashboards statistiques pour les investisseurs étrangers"
       ]
     },
     {
       "name": "Telma (Yas / Projet Togocel)",
-      "position": "Software QA Engineer",
+      "position": "Software QA Engineer & Product Owner Adjoint",
       "url": "https://telma.mg",
       "startDate": "2019-03-01",
       "endDate": "2019-10-01",
-      "summary": "Gestion de l'assurance qualité logicielle pour le projet de transformation digitale Togocel.",
+      "summary": "Modernisation de l'infrastructure de l'opérateur Togocel (Lomé) et assurance qualité logicielle.",
       "highlights": [
-        "Implémentation de protocoles de testing robustes pour services mobiles et web télécoms"
+        "Conception fonctionnelle et QA pour les applications de paiement mobile et portails USSD/Web de Togocel",
+        "Définition et implémentation de plans de test automatisés et manuels (API REST, mobile)",
+        "Coordination avec des équipes de développement internationales basées à Maurice, en France et au Togo"
       ]
     },
     {
       "name": "Pulse.mg",
-      "position": "Software QA Controller",
+      "position": "Software QA Controller & UI Designer",
       "url": "https://pulse.mg",
       "startDate": "2019-03-01",
       "endDate": "2019-10-01",
-      "summary": "Contrôle qualité automatisé et manuel pour produits digitaux, déploiements sans défauts.",
-      "highlights": []
+      "summary": "Contrôle qualité et design d'interfaces pour le groupe Telecom Malagasy (Telma).",
+      "highlights": [
+        "Audit ergonomique et UX/UI des applications mobiles grand public de Telma",
+        "Contrôle qualité continu, tests d'intégration et validation des déploiements en production"
+      ]
     },
     {
       "name": "Anouk Hotel",
-      "position": "Développeur & UI/UX Designer",
+      "position": "Développeur Fullstack & UI/UX Designer",
       "url": "https://anoukhotel.com",
       "startDate": "2018-02-01",
       "endDate": "2019-03-01",
-      "summary": "Configuration réseau interne (internet et intranet) de l'hôtel et intégration des maquettes.",
+      "summary": "Développement de la plateforme de réservation en ligne et administration réseau.",
       "highlights": [
-        "Configuration réseau interne (internet et intranet) de l'hôtel",
-        "Conception et intégration des maquettes du site web",
-        "Analyse ergonomique de l'interface web"
+        "Développement du site web de réservation directe et de l'intranet de gestion de l'hôtel (HTML5, CSS3, JavaScript, PHP)",
+        "Déploiement et sécurisation de l'infrastructure réseau (VPN, serveurs DNS locaux, pare-feu)",
+        "Optimisation SEO et acquisition de trafic (+40% de réservations en direct)"
       ]
     },
     {
       "name": "MALAKI Production (Groupe Filatex)",
-      "position": "Visual Event Designer",
+      "position": "Visual Event Designer & Tech Lead Graphique",
       "url": "https://groupe-filatex.com",
       "startDate": "2017-04-01",
       "endDate": "2018-01-01",
-      "summary": "Refonte des identités graphiques de la société et conception événementielle.",
+      "summary": "Refonte d'identité de marque et conception visuelle événementielle pour les projets du groupe.",
       "highlights": [
-        "Refonte des identités graphiques de la société",
-        "Conception de l'identité visuelle des produits dérivés et événementielle"
+        "Refonte globale de l'identité visuelle du studio de production et de ses filiales",
+        "Modélisation 3D et direction artistique technique pour des événements de grande envergure"
+      ]
+    },
+    {
+      "name": "Freelance Design & Intégration Web",
+      "position": "Designer Digital & Intégrateur Web",
+      "url": "",
+      "startDate": "2016-01-01",
+      "endDate": "2017-03-01",
+      "summary": "Création d'identités visuelles et intégration de sites web pour startups et PME locales.",
+      "highlights": [
+        "Conception de maquettes UI et intégration de landing pages responsives (HTML/CSS, WordPress)",
+        "Création de chartes graphiques et logos"
       ]
     }
   ],
