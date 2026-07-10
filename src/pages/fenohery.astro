@@ -1,0 +1,14 @@
+---
+// Dynamic CV page — loads JSON data and renders the CV template
+// Route: /fenohery
+import CVLayout from '../layouts/CVLayout.astro';
+import CVTemplate from '../components/CVTemplate.astro';
+import cvData from '../cvs/fenohery.json';
+
+const data = cvData;
+const basics = data.basics;
+---
+
+<CVLayout title={`${basics.name} — CV`} description={basics.summary}>
+  <CVTemplate data={data} theme="editorial" />
+</CVLayout>

@@ -1,0 +1,26 @@
+---
+// Dynamic CV page with theme selection
+// Route: /fenohery--[theme]
+import CVLayout from '../layouts/CVLayout.astro';
+import CVTemplate from '../components/CVTemplate.astro';
+import cvData from '../cvs/fenohery.json';
+
+export function getStaticPaths() {
+  return [
+    { params: { theme: 'editorial' } },
+    { params: { theme: 'minimal' } },
+    { params: { theme: 'dark' } },
+    { params: { theme: 'swiss' } },
+    { params: { theme: 'classic' } },
+    { params: { theme: 'creative' } },
+  ];
+}
+
+const { theme } = Astro.params;
+const data = cvData;
+const basics = data.basics;
+---
+
+<CVLayout title={`${basics.name} — CV (${theme})`} description={basics.summary}>
+  <CVTemplate data={data} theme={theme} />
+</CVLayout>

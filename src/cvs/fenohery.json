@@ -1,0 +1,243 @@
+{
+  "basics": {
+    "name": "Fenohery FANOMEZANIRINA",
+    "label": "Développeur Fullstack & Mobile | UX/UI Designer | CEO FATAPLUS",
+    "email": "fenohery.fanomezanirina@gmail.com",
+    "phone": "+261 34 20 472 13",
+    "url": "https://github.com/fenoh3ry",
+    "summary": "Développeur fullstack et UX/UI Designer avec plus de 5 ans d'expérience en développement web/mobile et design de produits digitaux. CEO fondateur de FATAPLUS, agence de product design et innovation digitale à Madagascar. Expérience en développement fullstack (React, Flutter, PHP, Node.js), design UX/UI certifié (Google UX, Figma EDU), et gestion d'équipe. Clients internationaux (France, UK, Madagascar). Bilingue français/anglais.",
+    "location": {
+      "city": "Antananarivo",
+      "countryCode": "MG",
+      "region": "Madagascar"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "fenohery-fanomezanirina",
+        "url": "https://linkedin.com/in/fenohery-fanomezanirina"
+      },
+      {
+        "network": "GitHub",
+        "username": "fenoh3ry",
+        "url": "https://github.com/fenoh3ry"
+      },
+      {
+        "network": "Dribbble",
+        "username": "fenoh3ry",
+        "url": "https://dribbble.com/fenoh3ry"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "FATAPLUS",
+      "position": "CEO & Lead Product Design Consultant",
+      "url": "https://fata.plus",
+      "startDate": "2023-10-01",
+      "summary": "Fondation de la première agence de product design spécialisée agritech et innovation industrielle à Madagascar.",
+      "highlights": [
+        "Développement fullstack de plateformes web et mobile (React, Flutter, PHP, Node.js, Cloudflare D1)",
+        "Gestion d'infrastructure Linux (VPS), Docker, reverse proxy, CI/CD",
+        "Lauréat programme PIC3 Miary Digital-Agri — plateforme agritech IA (marketplace, assistant IA, gestion élevage)",
+        "Collaborations stratégiques : Here2Be, Riake, ARC MG (UK/Madagascar)",
+        "Bootcamp Figma EDU certifié : formation de 50+ designers en 12 semaines",
+        "Livraison de 15+ projets clients : SaaS, LMS, e-commerce, applications mobiles"
+      ]
+    },
+    {
+      "name": "Unité de Gouvernance Digitale (UGD), Présidence de Madagascar",
+      "position": "UX/UI Designer",
+      "url": "https://digital.gov.mg",
+      "startDate": "2021-11-01",
+      "endDate": "2022-12-01",
+      "summary": "Lead design pour la transformation numérique nationale, plateforme d'identité digitale.",
+      "highlights": [
+        "Projet Vakisiny : UX pour le système national de certificat de vaccination COVID-19",
+        "Implémentation des standards d'accessibilité WCAG pour les services publics digitaux",
+        "Collaboration avec décideurs politiques et équipes techniques"
+      ]
+    },
+    {
+      "name": "EDBM (Economic Development Board of Madagascar)",
+      "position": "UX/UI Designer",
+      "url": "https://orinasa.edbm.mg",
+      "startDate": "2019-11-01",
+      "endDate": "2021-10-01",
+      "summary": "Projet Orinasa : plateforme digitale d'accélération de la création d'entreprises à Madagascar.",
+      "highlights": [
+        "Design de plateformes pour la promotion de l'investissement étranger",
+        "Ateliers stakeholders pour traduire les exigences économiques en outils digitaux intuitifs"
+      ]
+    },
+    {
+      "name": "Telma (Yas / Projet Togocel)",
+      "position": "Software QA Engineer",
+      "url": "https://telma.mg",
+      "startDate": "2019-03-01",
+      "endDate": "2019-10-01",
+      "summary": "Gestion de l'assurance qualité logicielle pour le projet de transformation digitale Togocel.",
+      "highlights": [
+        "Implémentation de protocoles de testing robustes pour services mobiles et web télécoms"
+      ]
+    },
+    {
+      "name": "Pulse.mg",
+      "position": "Software QA Controller",
+      "url": "https://pulse.mg",
+      "startDate": "2019-03-01",
+      "endDate": "2019-10-01",
+      "summary": "Contrôle qualité automatisé et manuel pour produits digitaux, déploiements sans défauts.",
+      "highlights": []
+    },
+    {
+      "name": "Anouk Hotel",
+      "position": "Développeur & UI/UX Designer",
+      "url": "https://anoukhotel.com",
+      "startDate": "2018-02-01",
+      "endDate": "2019-03-01",
+      "summary": "Configuration réseau interne (internet et intranet) de l'hôtel et intégration des maquettes.",
+      "highlights": [
+        "Configuration réseau interne (internet et intranet) de l'hôtel",
+        "Conception et intégration des maquettes du site web",
+        "Analyse ergonomique de l'interface web"
+      ]
+    },
+    {
+      "name": "MALAKI Production (Groupe Filatex)",
+      "position": "Visual Event Designer",
+      "url": "https://groupe-filatex.com",
+      "startDate": "2017-04-01",
+      "endDate": "2018-01-01",
+      "summary": "Refonte des identités graphiques de la société et conception événementielle.",
+      "highlights": [
+        "Refonte des identités graphiques de la société",
+        "Conception de l'identité visuelle des produits dérivés et événementielle"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Figma",
+      "area": "Figma EDU Professional Certification",
+      "studyType": "Certification",
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31"
+    },
+    {
+      "institution": "Google",
+      "area": "Google UX Design Certificate",
+      "studyType": "Professional Certificate",
+      "startDate": "2023-01-01",
+      "endDate": "2023-12-31"
+    },
+    {
+      "institution": "Uxcel",
+      "area": "Verified Designer Assessment (Top 30% mondial)",
+      "studyType": "Assessment",
+      "startDate": "2022-01-01",
+      "endDate": "2022-12-31"
+    },
+    {
+      "institution": "The Hacking Project",
+      "area": "Bootcamp Développeur Fullstack",
+      "studyType": "Bootcamp",
+      "startDate": "2019-01-01",
+      "endDate": "2020-12-31",
+      "summary": "Ruby on Rails, JavaScript, HTML/CSS, SQL, Git, peer-learning"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Langages",
+      "keywords": [
+        "PHP",
+        "JavaScript",
+        "JAVA",
+        "HTML5",
+        "CSS3",
+        "SQL",
+        "Python",
+        "Ruby"
+      ]
+    },
+    {
+      "name": "Frameworks & Mobile",
+      "keywords": [
+        "React",
+        "Flutter",
+        "Ruby on Rails",
+        "TailwindCSS",
+        "Bootstrap"
+      ]
+    },
+    {
+      "name": "Bases de données & Cloud",
+      "keywords": [
+        "MySQL",
+        "PostgreSQL",
+        "Cloudflare D1",
+        "Cloudflare Workers"
+      ]
+    },
+    {
+      "name": "Systèmes & Outils",
+      "keywords": [
+        "Linux",
+        "Docker",
+        "Git",
+        "GitHub",
+        "CI/CD",
+        "Caddy",
+        "Nginx"
+      ]
+    },
+    {
+      "name": "Design & No-Code",
+      "keywords": [
+        "Figma (EDU Certified)",
+        "WeWeb",
+        "Xano",
+        "n8n",
+        "Webflow",
+        "Framer"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Français",
+      "fluency": "Courant"
+    },
+    {
+      "language": "Anglais",
+      "fluency": "Professionnel"
+    },
+    {
+      "language": "Malgache",
+      "fluency": "Langue maternelle"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Fataplus Agritech Platform",
+      "description": "Écosystème agricole IA : marketplace, assistant IA (Madagascar), gestion élevage connectée, météo intelligente. +30% potentiel revenus agriculteurs."
+    },
+    {
+      "name": "Allvia.ai",
+      "description": "Plateforme SaaS d'analyse d'appels commerciaux (WeWeb, Xano, n8n). Dashboards radar, scoring automatisé."
+    },
+    {
+      "name": "Talisource v2.0",
+      "description": "Système de matching intelligent (MBTI + compétences). -30% temps de recrutement."
+    },
+    {
+      "name": "ApollonLab LMS",
+      "description": "Plateforme LMS React + Cloudflare D1, 22 routes, quiz, progression. Intégration Whop."
+    },
+    {
+      "name": "Tanala",
+      "description": "Plugin PHP avec API REST CRUD pour Breakdance Builder."
+    }
+  ]
+}
