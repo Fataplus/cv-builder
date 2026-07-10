@@ -1,11 +1,11 @@
 {
   "basics": {
     "name": "Fenohery FANOMEZANIRINA",
-    "label": "Développeur Fullstack & Mobile | UX/UI Designer | CEO FATAPLUS",
+    "label": "Product Designer | UX/UI Specialist | CEO FATAPLUS",
     "email": "fenohery.fanomezanirina@gmail.com",
     "phone": "+261 34 20 472 13",
     "url": "https://github.com/fenoh3ry",
-    "summary": "Développeur fullstack et UX/UI Designer avec plus de 9 ans d'expérience en design et développement de produits digitaux (web, mobile, SaaS, systèmes agentiques). CEO fondateur de FATAPLUS, agence de product design et d'ingénierie logicielle basée à Madagascar. Expertise transverse combinant le design de haut niveau (certifié Google UX, Figma EDU), le développement d'architectures distribuées et serverless (Cloudflare Workers, D1, KV, Postgres) et l'intégration d'IA (pipelines RAG, LLM et orchestration multi-agents). Orienté impact business et qualité d'exécution (Vibecode).",
+    "summary": "Product Designer et Spécialiste UX/UI avec plus de 9 ans d'expérience dans la conception de produits digitaux (SaaS, applications mobiles, plateformes Web et systèmes d'IA). CEO fondateur de FATAPLUS, agence de product design et d'ingénierie produit basée à Madagascar. Expertise poussée combinant le design de haut niveau (certifié Google UX, Figma EDU), la recherche utilisateur (UX Research) et une forte sensibilité technique permettant de concevoir des architectures d'interaction intelligentes (pipelines RAG, orchestration d'agents et Micro-interactions). Orienté impact business et qualité esthétique et fonctionnelle (Vibecode).",
     "location": {
       "city": "Antananarivo",
       "countryCode": "MG",
@@ -257,6 +257,42 @@
     {
       "name": "Tanala",
       "description": "Plugin PHP avec API REST CRUD pour Breakdance Builder."
+    }
+  ],
+  "interests": [
+    {
+      "name": "Football",
+      "keywords": [
+        "Chelsea FC",
+        "Real Madrid",
+        "Analyse tactique",
+        "Matches de club"
+      ]
+    },
+    {
+      "name": "Musique",
+      "keywords": [
+        "Rap Français",
+        "Production musicale",
+        "Storytelling urbain"
+      ]
+    },
+    {
+      "name": "Tech & AI",
+      "keywords": [
+        "Orchestration d'agents",
+        "Generative UI",
+        "Interface agentique (AX)",
+        "Vibecode"
+      ]
+    },
+    {
+      "name": "Agriculture moderne",
+      "keywords": [
+        "AgriTech",
+        "Systèmes d'irrigation connectés",
+        "Precision farming"
+      ]
     }
   ]
 }
